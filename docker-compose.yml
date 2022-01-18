@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  streamlit:
+    build:
+      dockerfile: ./dashboards/Dockerfile 
+      context: ./
+    expose:
+      - "8501"
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api
+    networks:
+      - my_net
+    
+  vi-api:
+    build:
+      dockerfile: ./app/Dockerfile
+      context: ./
+    expose:
+      - "8000"
+    ports:
+      - "8000:8000"
+    volumes: 
+      - "c:/hsi_data:/data" # set this path
+    networks:
+      - my_net
+  
+networks: 
+  my_net:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 9000
+    ipam:
+      config:
+        - subnet: 172.18.1.0/24
+
+      
+    
