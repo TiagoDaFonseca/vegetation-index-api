@@ -16,14 +16,14 @@ services:
     
   vi-api:
     build:
-      dockerfile: ./app/Dockerfile
+      dockerfile: ./app/Dockerfile # or just edit image: name:tag Ex-> image: api:latest
       context: ./
     expose:
       - "8000"
     ports:
       - "8000:8000"
     volumes: 
-      - "c:/hsi_data:/data" # set this path
+      - "c:/hsi_data:/data" # set the host path to read hsi data locally
     networks:
       - my_net
   
