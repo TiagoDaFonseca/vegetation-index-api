@@ -1,0 +1,40 @@
+# Test your FastAPI endpoints
+
+###
+
+GET http://127.0.0.1:8000/crops
+Accept: application/json
+
+###
+
+GET http://127.0.0.1:8000/crops/{crop}/2021_10_28
+Accept: application/json
+
+###
+
+GET http://127.0.0.1:8000/crops/{crop}/2021_10_28/100m
+Accept: application/json
+
+###
+GET http://127.0.0.1:8000/crops/{crop}/2021_10_28/100m/ref
+Accept: application/json
+
+###
+GET http://127.0.0.1:8000/crops/potato/2021_10_28/100m/ref/Voo1_100m_000_001k_000__REF.img/rgb
+Accept: application/json
+
+###
+
+GET http://127.0.0.1:8000/vegetation_indexes/potato/2021_10_28/100m/Voo1_100m_000_001k_000__REF.img/VARI
+Accept: application/json
+
+###
+POST http://127.0.0.1:8000/predict
+Content-Type: application/json
+
+{
+    "crop": "potato",
+    "date": "2021_10_28",
+    "altitude": "100m",
+    "filename": "Voo1_100m_000_001k_000__REF.img"
+}
