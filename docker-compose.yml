@@ -23,7 +23,7 @@ services:
     ports:
       - "8000:8000"
     volumes: 
-      - "c:/hsi_data:/data" # set the host path to read hsi data locally
+      - ./data:/data # set the host path to read hsi data locally
     networks:
       - my_net
   
