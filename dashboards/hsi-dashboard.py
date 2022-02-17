@@ -58,25 +58,25 @@ def app():
         dates = loads(
             requests.get(
                 f"http://172.18.1.2:8000/crops/{crop}").json()["dates"])
-        date = st.sidebar.selectbox("Inspection", options=[d for d in dates if "._" not in d])
+        date = st.sidebar.selectbox("Inspection", options=dates)
 
     if date is not None:
         alttitudes = loads(
             requests.get(
                 f"http://172.18.1.2:8000/crops/{crop}/{date}").json()["sets"])
-        alttitude = st.sidebar.selectbox("Alttitude", options=[a for a in alttitudes if "._" not in a])
+        alttitude = st.sidebar.selectbox("Alttitude", options=alttitudes)
     
     if alttitude is not None:
         folders = loads(
             requests.get(
                 f"http://172.18.1.2:8000/crops/{crop}/{date}/{alttitude}").json()["folders"])
-        folder = st.sidebar.selectbox("Folder", options=[f for f in folders if "._" not in f])
+        folder = st.sidebar.selectbox("Folder", options=folders)
 
     if folder is not None:
         files = loads(
             requests.get(
                 f"http://172.18.1.2:8000/crops/{crop}/{date}/{alttitude}/{folder}").json()["images"])
-        filename = st.sidebar.selectbox("Image", options=[f for f in files if ".img" in f or ".cue" in f and "._" not in f])
+        filename = st.sidebar.selectbox("Image", options=files)
 
     st.sidebar.subheader("Analysis")
     vis = loads(
@@ -89,12 +89,14 @@ def app():
 
     # Output
     if filename is not None:
-        color_image_type = st.sidebar.selectbox("Channels", options=["rgb", "cir", "inv"])
+        color_image_type = st.sidebar.selectbox("Channels", options=["rgb", "cir"]) # , "inv"])
         img = np.asarray(loads(
             requests.get(
             f"http://172.18.1.2:8000/crops/{crop}/{date}/{alttitude}/{folder}/{filename}/{color_image_type}").json()["image"]))
         
-        st.image(img, caption=f"{color_image_type.upper()}")
+        w = {"rgb": (76, 51, 31), "cir": (128, 76, 51)}
+        
+        st.image(img, caption=f"{color_image_type.upper()} bands:{w[color_image_type]}")
 
         if st.sidebar.checkbox("Show crop health"):
             crop_health = np.asarray(loads(

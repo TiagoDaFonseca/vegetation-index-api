@@ -25,36 +25,36 @@ app = FastAPI()
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    return {"Hello": "VI api"}
     
 @app.get("/crops")
 async def list_crops():
-    dates = os.listdir(CWD)
-    return {"crops": dumps(dates)}
+    crops = os.listdir(CWD)
+    return {"crops": dumps([c for c in crops if os.path.isdir(os.path.join(CWD, c)) and "._" not in c])}
 
 
 @app.get("/crops/{crop}")
 async def list_inspections(crop: str):
     dates = os.listdir(os.path.join(CWD, crop))
-    return {"dates": dumps(dates)}
+    return {"dates": dumps([d for d in dates if os.path.isdir(os.path.join(CWD, crop, d)) and "._" not in d])}
 
 
 @app.get("/crops/{crop}/{date}")
 async def list_altitudes(crop: str, date: str):
     altitudes = os.listdir(os.path.join(CWD, crop, date))
-    return {"sets": dumps(altitudes)}
+    return {"sets": dumps([a for a in altitudes if os.path.isdir(os.path.join(CWD, crop, date, a)) and "._" not in a])}
 
 
 @app.get("/crops/{crop}/{date}/{altitude}")
 async def list_folders(crop: str, date: str, altitude: str):
     folders = os.listdir(os.path.join(CWD, crop, date, altitude))
-    return {"folders": dumps(folders)}
+    return {"folders": dumps([f for f in folders if os.path.isdir(os.path.join(CWD, crop, date, altitude, f)) and "._" not in f])}
 
 
 @app.get("/crops/{crop}/{date}/{altitude}/{folder}")
 async def list_images(crop: str, date: str, altitude: str, folder: str):
     images = os.listdir(os.path.join(CWD, crop, date, altitude, folder))
-    return {"images": dumps(images)}
+    return {"images": dumps([f for f in images if ".img" in f or ".cue" in f and "._" not in f])}
 
 
 @app.get("/crops/{crop}/{date}/{altitude}/{folder}/{filename}/{kind}")
