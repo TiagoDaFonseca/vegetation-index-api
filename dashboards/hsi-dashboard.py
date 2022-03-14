@@ -94,9 +94,9 @@ def app():
             requests.get(
             f"http://172.18.1.2:8000/crops/{crop}/{date}/{alttitude}/{folder}/{filename}/{color_image_type}").json()["image"]))
         
-        w = {"rgb": (76, 51, 31), "cir": (128, 76, 51)}
+        w = {"rgb": (654, 554, 474), "cir": (862, 654, 554)}
         
-        st.image(img, caption=f"{color_image_type.upper()} bands:{w[color_image_type]}")
+        st.image(img, caption=f"{color_image_type.upper()} bands:{w[color_image_type]} nm")
 
         if st.sidebar.checkbox("Show crop health"):
             crop_health = np.asarray(loads(
