@@ -1,33 +1,30 @@
 version: '3'
-
 services:
   streamlit:
     build:
-      dockerfile: ./dashboards/Dockerfile 
+      dockerfile: ./dashboards/Dockerfile
       context: ./
     expose:
-      - "8501"
+      - '8501'
     ports:
-      - "8501:8501"
+      - '8501:8501'
     depends_on:
-      - api
+      - vi-api
     networks:
       - my_net
-    
   vi-api:
     build:
-      dockerfile: ./app/Dockerfile # or just edit image: name:tag Ex-> image: api:latest
+      dockerfile: ./app/Dockerfile
       context: ./
     expose:
-      - "8000"
+      - '8000'
     ports:
-      - "8000:8000"
-    volumes: 
-      - ./data:/data # set the host path to read hsi data locally
+      - '8000:8000'
+    volumes:
+      - './data:/data'
     networks:
       - my_net
-  
-networks: 
+networks:
   my_net:
     driver: bridge
     driver_opts:
@@ -35,6 +32,3 @@ networks:
     ipam:
       config:
         - subnet: 172.18.1.0/24
-
-      
-    
